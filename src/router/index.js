@@ -5,7 +5,6 @@ import 'vue-material/dist/theme/default.css'
 import 'vue-material/dist/vue-material.min.css'
 import { MdButton, MdContent, MdTabs } from 'vue-material/dist/components'
 import Router from 'vue-router'
-import TestPage from '@/components/TestPage'
 import CreateUser from '@/components/CreateUser'
 
 Vue.use(Router)

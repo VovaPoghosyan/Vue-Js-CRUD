@@ -76,7 +76,7 @@
           <md-table-head>Job Title</md-table-head>
           <md-table-head>Actions</md-table-head>
         </md-table-row>
-        <md-table-row v-for="(row, index) in rows">
+        <md-table-row v-for="(row, index) in $store.getters.rows">
           <md-table-cell>{{row.firstName}}</md-table-cell>
           <md-table-cell>{{row.lastName}}</md-table-cell>
           <md-table-cell>{{row.email}}</md-table-cell>
@@ -174,13 +174,14 @@
           this.lastUser  = `${this.form.firstName} ${this.form.lastName}`;
           this.userSaved = true;
           this.sending   = false;
-          this.rows.push({
+          let row = {
             firstName: this.form.firstName,
             lastName: this.form.lastName,
             email: this.form.email,
             gender: this.form.gender,
             age: this.form.age
-          })
+          };
+          this.$store.commit('addRow', row);
           this.clearForm();
         }, 1000)
       },
@@ -192,13 +193,17 @@
           this.lastUser  = `${this.form.firstName} ${this.form.lastName}`;
           this.userSaved = true;
           this.sending   = false;
-          this.rows[id] = {
-            firstName: this.form.firstName,
-            lastName: this.form.lastName,
-            email: this.form.email,
-            gender: this.form.gender,
-            age: this.form.age
-          };
+          let data = {
+            row: {
+              firstName: this.form.firstName,
+              lastName: this.form.lastName,
+              email: this.form.email,
+              gender: this.form.gender,
+              age: this.form.age
+            },
+            id: id
+          }
+          this.$store.commit('editRow', data, id);
           this.clearForm();
           this.editUser = false;
           this.userId   = null;
@@ -229,7 +234,7 @@
       },
       deleteRow (id) {
         if(confirm("Are you sure delete this user?")){
-          this.rows.splice(id, 1);
+          this.$store.commit('deleteRow', id);
         }
       }
     }
